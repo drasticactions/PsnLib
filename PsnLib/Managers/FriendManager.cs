@@ -102,6 +102,21 @@ namespace PsnLib.Managers
             }
         }
 
+        public async Task<bool> DeleteFriend(string username, UserAccountEntity userAccountEntity)
+        {
+            try
+            {
+                var user = userAccountEntity.GetUserEntity();
+                var url = string.Format(EndPoints.DenyAddFriend, user.Region, user.OnlineId, username);
+                var result = await _webManager.DeleteData(new Uri(url), null, userAccountEntity);
+                return result.IsSuccess;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error removing friend", ex);
+            }
+        }
+
         public async Task<bool> SendFriendRequest(string username, string requestMessage,
             UserAccountEntity userAccountEntity)
         {
