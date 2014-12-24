@@ -71,7 +71,7 @@ namespace PsnLib.Managers
             }
         }
 
-        public async Task<bool> DeleteFriend(string username, UserAccountEntity userAccountEntity)
+        public async Task<bool> IgnoreFriendRequest(string username, UserAccountEntity userAccountEntity)
         {
             try
             {
@@ -109,6 +109,7 @@ namespace PsnLib.Managers
             {
                 var user = userAccountEntity.GetUserEntity();
                 var param = new Dictionary<String, String>();
+                if (!string.IsNullOrEmpty(requestMessage)) param.Add("requestMessage", requestMessage);
                 var jsonObject = JsonConvert.SerializeObject(param);
                 var stringContent = new StringContent(jsonObject, Encoding.UTF8, "application/json");
                 var url = string.Format(EndPoints.SendFriendRequest, user.Region, user.OnlineId, username, requestMessage);

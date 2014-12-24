@@ -34,6 +34,7 @@ namespace PsnLib.Managers
             {
                 var user = userAccountEntity.GetUserEntity();
                 var url = string.Format(EndPoints.MessageGroup, user.Region, username, user.Language);
+                url += "&r=" + Guid.NewGuid();
                 var result = await _webManager.GetData(new Uri(url), userAccountEntity);
                 var messageGroup = JsonConvert.DeserializeObject<MessageGroupEntity>(result.ResultJson);
                 return messageGroup;
@@ -95,6 +96,7 @@ namespace PsnLib.Managers
             {
                 var user = userAccountEntity.GetUserEntity();
                 var url = string.Format(EndPoints.MessageGroup, user.Region, messageGroupId, user.Language);
+                url += "&r=" + Guid.NewGuid();
                 var result = await _webManager.GetData(new Uri(url), userAccountEntity);
                 var messageGroup = JsonConvert.DeserializeObject<MessageEntity>(result.ResultJson);
                 return messageGroup;
