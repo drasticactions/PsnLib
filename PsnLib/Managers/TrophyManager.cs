@@ -35,7 +35,7 @@ namespace PsnLib.Managers
             }
             catch (Exception ex)
             {
-                throw new Exception("Error getting trophy list", ex);
+                throw new Exception(ex.Message, ex);
             }
         }
     }

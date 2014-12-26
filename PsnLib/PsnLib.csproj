@@ -42,6 +42,14 @@
     <Compile Include="Entities\NicoNicoEntity.cs" />
     <Compile Include="Entities\NotificationEntity.cs" />
     <Compile Include="Entities\RecentActivityEntity.cs" />
+    <Compile Include="Entities\SearchEntities\AvatarUrl.cs" />
+    <Compile Include="Entities\SearchEntities\FirstNameMatch.cs" />
+    <Compile Include="Entities\SearchEntities\LastNameMatch.cs" />
+    <Compile Include="Entities\SearchEntities\MiddleNameMatch.cs" />
+    <Compile Include="Entities\SearchEntities\PersonalDetail.cs" />
+    <Compile Include="Entities\SearchEntities\ProfilePictureUrl.cs" />
+    <Compile Include="Entities\SearchEntities\SearchResult.cs" />
+    <Compile Include="Entities\SearchResultsEntity.cs" />
     <Compile Include="Entities\SessionInviteDetailEntity.cs" />
     <Compile Include="Entities\SessionInviteEntity.cs" />
     <Compile Include="Entities\TrophyDetailEntity.cs" />
@@ -61,6 +69,7 @@
     <Compile Include="Managers\MessageManager.cs" />
     <Compile Include="Managers\NotificationManager.cs" />
     <Compile Include="Managers\RecentActivityManager.cs" />
+    <Compile Include="Managers\SearchManager.cs" />
     <Compile Include="Managers\SessionInviteManager.cs" />
     <Compile Include="Managers\TrophyDetailManager.cs" />
     <Compile Include="Managers\TrophyManager.cs" />

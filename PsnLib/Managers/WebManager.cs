@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.NetworkInformation;
@@ -122,13 +123,16 @@ namespace PsnLib.Managers
                 }
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userAccountEntity.GetAccessToken());
                 var response = await httpClient.GetAsync(uri);
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    throw new WebException("PSN API Error: Service not found.");
+                }
                 var responseContent = await response.Content.ReadAsStringAsync();
                 return string.IsNullOrEmpty(responseContent) ? new Result(false, string.Empty) : new Result(true, responseContent);
             }
             catch
             {
-                // TODO: Add detail error result to json object.
-                return new Result(false, string.Empty);
+                throw new WebException("PSN API Error: Service not found.");
             }
         }
 

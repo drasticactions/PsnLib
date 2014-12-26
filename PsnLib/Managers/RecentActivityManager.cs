@@ -37,7 +37,7 @@ namespace PsnLib.Managers
             }
             catch (Exception exception)
             {
-                
+
                 throw new Exception("Error getting activity feed", exception);
             }
         }

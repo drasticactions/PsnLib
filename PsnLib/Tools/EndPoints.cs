@@ -17,11 +17,20 @@
             public const string Sort = "sort";
         }
 
+        public const string Search =
+            "https://friendfinder.api.np.km.playstation.net/friend-finder/api/v1/users/me/search?avatarSizes=m&profilePictureSizes=m%2Cxl&offset={0}&limit=36&query={1}";
+
+        public const string UserAvatar =
+            "https://{0}-prof.np.community.playstation.net/userProfile/v1/users/{1}/profile?fields=avatarUrl";
+
         public const string InviteInformation =
             "https://{0}-ivt.np.community.playstation.net/sessionInvitation/v1/users/{1}/invitations/{2}?fields=@default,npTitleDetail,session,members&npLanguage={3}";
 
         public const string SessionInformation =
             "https://{0}-ivt.np.community.playstation.net/sessionInvitation/v1/users/{1}/invitations?fields=@default,sessionId,receivedDate,expired,updateDate,fromUser,subject,npTitleDetail,availablePlatforms&npLanguage={2}&offset={3}";
+
+        public const string MessageGroup2 =
+            "https://{0}-gmsg.np.community.playstation.net/groupMessaging/v1/messageGroups/{1}/messages?fields=@default%2CmessageGroup%2Cbody&npLanguage={2}";
 
         public const string MessageGroup =
             "https://{0}-gmsg.np.community.playstation.net/groupMessaging/v1/users/{1}/messageGroups?fields=@default%2CmessageGroupId%2CmessageGroupDetail%2CtotalUnseenMessages%2CtotalMessages%2ClatestMessage&npLanguage={2}";
@@ -34,6 +43,9 @@
 
         public const string ClearNotification =
             "https://{0}-ntl.np.community.playstation.net/notificationList/v1/users/{1}/notifications/{2}/{3}";
+
+        public const string DeleteThread =
+            "https://{0}-gmsg.np.community.playstation.net/groupMessaging/v1/messageGroups/{1}/users/{2}";
 
         public const string CreatePost =
             "https://{0}-gmsg.np.community.playstation.net/groupMessaging/v1/messageGroups/{1}/messages";
@@ -70,6 +82,8 @@
 
         public const string SendNameRequest =
             "https://{0}-prof.np.community.playstation.net/userProfile/v1/users/{1}/friendList/{2}/personalDetailSharing";
+
+
 
         public const string RecentActivity =
             "https://activity.api.np.km.playstation.net/activity/api/v1/users/{0}/{1}/{2}?filters=PURCHASED&filters=RATED&filters=VIDEO_UPLOAD&filters=SCREENSHOT_UPLOAD&filters=PLAYED_GAME&filters=WATCHED_VIDEO&filters=TROPHY&filters=BROADCASTING&filters=LIKED&filters=PROFILE_PIC&filters=FRIENDED&filters=CONTENT_SHARE";

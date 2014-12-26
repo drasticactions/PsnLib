@@ -41,8 +41,8 @@ namespace PsnLib.Managers
             }
             catch (Exception ex)
             {
-                
-                throw new Exception("Failed to get message group", ex);
+
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -74,6 +74,10 @@ namespace PsnLib.Managers
         {
             try
             {
+                if (messageEntity.messages == null)
+                {
+                    return false;
+                }
                 var user = userAccountEntity.GetUserEntity();
                 var messageUids = new List<int>();
                 messageUids.AddRange(messageEntity.messages.Where(o => o.seenFlag == false).Select(message => message.messageUid));
@@ -95,7 +99,7 @@ namespace PsnLib.Managers
             try
             {
                 var user = userAccountEntity.GetUserEntity();
-                var url = string.Format(EndPoints.MessageGroup, user.Region, messageGroupId, user.Language);
+                var url = string.Format(EndPoints.MessageGroup2, user.Region, messageGroupId, user.Language);
                 url += "&r=" + Guid.NewGuid();
                 var result = await _webManager.GetData(new Uri(url), userAccountEntity);
                 var messageGroup = JsonConvert.DeserializeObject<MessageEntity>(result.ResultJson);
@@ -105,6 +109,21 @@ namespace PsnLib.Managers
             {
 
                 throw new Exception("Failed to get the group conversation", ex);
+            }
+        }
+
+        public async Task<bool> DeleteMessageThread(string messageUserId, UserAccountEntity userAccountEntity)
+        {
+            try
+            {
+                var user = userAccountEntity.GetUserEntity();
+                var url = string.Format(EndPoints.DeleteThread, user.Region, messageUserId, user.OnlineId);
+                var result = await _webManager.DeleteData(new Uri(url), null, userAccountEntity);
+                return result.IsSuccess;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to remove message thread", ex);
             }
         }
 
@@ -161,7 +180,7 @@ namespace PsnLib.Managers
                 var json = JsonConvert.SerializeObject(messageJson);
                 var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
                 stringContent.Headers.Add("Content-Description", "message");
-                var form = new MultipartContent("mixed", boundary) {stringContent};
+                var form = new MultipartContent("mixed", boundary) { stringContent };
 
                 Stream stream = new MemoryStream(fileStream);
                 var t = new StreamContent(stream);
