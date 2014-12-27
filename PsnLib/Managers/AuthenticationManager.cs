@@ -118,9 +118,9 @@ namespace PsnLib.Managers
             {
                 return await SendLoginData(userName, password);
             }
-            catch
+            catch (Exception e)
             {
-                return null;
+                throw new Exception("Failed to login: There is a problem with the network", e);
             }
         }
 
