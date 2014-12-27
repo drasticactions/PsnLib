@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Psnlib : A C# .Net PlayStation Network Library">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Psnlib</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/drasticactions/PsnLib">View on GitHub</a>
+
+          <h1 id="project_title">Psnlib</h1>
+          <h2 id="project_tagline">A C# .Net PlayStation Network Library</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/drasticactions/PsnLib/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/drasticactions/PsnLib/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+<a id="psnlib-a-playstation-network-net-library" class="anchor" href="#psnlib-a-playstation-network-net-library" aria-hidden="true"><span class="octicon octicon-link"></span></a>PsnLib: A Playstation Network .NET Library</h3>
+
+<p>PsnLib is a library for accessing the PlayStation Network in .NET. Currently, it is being used as the foundation for a new Windows Store/Windows Phone application, PSN Messenger.</p>
+
+<p><img src="http://i.imgur.com/2rWMesv.png" alt="PSN Messenger App 1"></p>
+
+<p>But it should be flexible enough so you can use it with any .NET application. </p>
+
+<h3>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h3>
+
+<p>Currently I am working on creating actual documentation, but here is the primer that should get you making basic calls (pending on the PSN API actually being online).</p>
+
+<p>The PSN API implements a RESTful API, using OAuth2 for authentication.</p>
+
+<p>In normal Sony written apps, the user is directed to a Sony web page where they input their user information. Then they get redirected back to the application or webpage that sent them. Their redirect URLs are hard coded; you can't change them without having their API throw an error. So as a work around, PsnLib fakes the HTTP response so we get a URL Auth code directly from their servers. Then we can get the access and refresh tokens and start making authenticated requests. While this is not necessarily the ideal (users may worry because you, the developer, are handling their user login information directly instead of going to the Sony site) but it's the easiest way to actually get the user in and going.</p>
+
+<pre><code>var authManager = new AuthenticationManager();
+var user = await authManager.Authenticate(email, password);
+</code></pre>
+
+<p>If the user was logged in successfully, the authentication manager will return a UserAccountEntity. If it failed, it will be null. If the server errors out (which is bound to happen given how the PSN has been behaving), it will throw an exception.</p>
+
+<p>Once you have the UserAccountEntity, you can start making authenticated calls. All Oauth from here are out (including refreshing the access token) is handled by the library.</p>
+
+<p>For example:</p>
+
+<pre><code>UserAccountEntity.User user = await authManager.GetUserEntity(userAccountEntity);
+</code></pre>
+
+<p>Will get the current users information (OnlineID, Avatar, and so on).</p>
+
+<p>Now let's say we want compare trophies with a different user, then that a games specific trophy list.</p>
+
+<p>First</p>
+
+<pre><code>string username = "DrasticOverload";
+int offset = 0;
+var trophyList = await _trophyManager.GetTrophyList(username, offset, UserAccountEntity);
+</code></pre>
+
+<p>As you may recall, the UserAccountEntity is what we were returned when we logged in. We need this so we can authenticate with Sony's servers. The username is, well, the username. And the offset is an int where the trophy list will start from. Their API returns 64 trophies at a time, so if you want to keep going through a users trophy list, once you hit the end of initial list you can call with the offset value to get the remaining ones.</p>
+
+<p>The trophy list is returned as a TrophyEntity, which has the total number of trophies for that user, the next offset, the current limit, and a List of TrophyTitle. A TrophyTitle has the bunch of infromation, including the both you and the compared user and how many trophies from that game each have, the game itself and its trophy information.</p>
+
+<p>Now, we want to check the detailed information on that games specific trophies. Using trophyList from above, we do this.</p>
+
+<pre><code>TrophyTitle trophy = trophyList.TrophyTitles.First();
+var trophyDetailManager = new TrophyDetailManager();
+bool showHiddenTrophies = true;
+var trophys =
+                await
+                    trophyDetailManager .GetTrophyDetailList(trophy.npCommunicationId,
+                        userName, showHiddenTrophies,
+                        UserAccountEntity);
+</code></pre>
+
+<p>In this, we need the games npCommunicationId, so we can get the rest of the list. We want to compare the individual trophies with the user from before, so we keep that the same. showHiddenTrophies is set if we want to include or hide hidden trophies (They return from the API as hidden, you can't see what they are from it.) and the same UserAccountEntity from before.</p>
+
+<p>Now you will get a list of individual trophies, which you can then parse through.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Psnlib maintained by <a href="https://github.com/drasticactions">drasticactions</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
