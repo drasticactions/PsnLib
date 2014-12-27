@@ -5,46 +5,46 @@ namespace PsnLib.Entities
 {
     public class UserAccountEntity
     {
-        private User _entity;
+        public User Entity;
         private Boolean _isCalled;
-        private readonly AccountData _data;
+        public readonly AccountData Data;
 
         public UserAccountEntity(string accessToken, string refreshToken)
         {
-            _data = new AccountData(accessToken, refreshToken, -1);
-            _entity = null;
+            Data = new AccountData(accessToken, refreshToken, -1);
+            Entity = null;
             _isCalled = false;
         }
 
         public String GetAccessToken()
         {
-            if (GetUnixTime(DateTime.Now) < _data.RefreshTime)
-                return _data.AccessToken;
-            if (_isCalled) return _data.AccessToken;
+            if (GetUnixTime(DateTime.Now) < Data.RefreshTime)
+                return Data.AccessToken;
+            if (_isCalled) return Data.AccessToken;
             _isCalled = true;
             return "refresh";
         }
 
         public bool HasAccessToken()
         {
-            return string.IsNullOrEmpty(_data.AccessToken);
+            return !string.IsNullOrEmpty(Data.AccessToken);
         }
 
         public void SetUserEntity(User entity)
         {
-            _entity = entity;
+            Entity = entity;
         }
 
         public User GetUserEntity()
         {
-            return _entity;
+            return Entity;
         }
 
         public void SetAccessToken(String token, String refresh)
         {
-            _data.AccessToken = token;
-            _data.RefreshToken = refresh;
-            if (_data.RefreshToken != null)
+            Data.AccessToken = token;
+            Data.RefreshToken = refresh;
+            if (Data.RefreshToken != null)
             {
                 _isCalled = false;
             }
@@ -52,13 +52,13 @@ namespace PsnLib.Entities
 
         public void SetRefreshTime(long time)
         {
-            _data.RefreshTime = GetUnixTime(DateTime.Now) + time;
-            _data.StartTime = GetUnixTime(DateTime.Now);
+            Data.RefreshTime = GetUnixTime(DateTime.Now) + time;
+            Data.StartTime = GetUnixTime(DateTime.Now);
         }
 
         public string GetRefreshToken()
         {
-            return _data.RefreshToken;
+            return Data.RefreshToken;
         }
 
         public static long GetUnixTime(DateTime time)
@@ -98,7 +98,7 @@ namespace PsnLib.Entities
             }
         }
 
-        private class AccountData
+        public class AccountData
         {
             public string AccessToken;
             public long RefreshTime;
