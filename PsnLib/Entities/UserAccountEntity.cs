@@ -7,7 +7,7 @@ namespace PsnLib.Entities
     {
         public User Entity;
         private Boolean _isCalled;
-        public readonly AccountData Data;
+        public AccountData Data;
 
         public UserAccountEntity(string accessToken, string refreshToken)
         {

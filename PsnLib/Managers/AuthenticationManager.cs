@@ -28,6 +28,10 @@ namespace PsnLib.Managers
         public async Task<UserAccountEntity.User> GetUserEntity(UserAccountEntity userAccountEntity)
         {
             var result = await _webManager.GetData(new Uri(EndPoints.VerifyUser), userAccountEntity);
+            if (!result.IsSuccess)
+            {
+                throw new LoginFailedException("Failed to Log in");
+            }
             try
             {
                 var user = UserAccountEntity.ParseUser(result.ResultJson);
@@ -147,11 +151,15 @@ namespace PsnLib.Managers
             var response = await httpClient.PostAsync(EndPoints.LoginPost, form);
             if (!response.IsSuccessStatusCode)
             {
-                return null;
+                throw new Exception("Failed to log in: " + response.StatusCode);
             }
 
             var codeUrl = response.RequestMessage.RequestUri;
             var queryString = UriExtensions.ParseQueryString(codeUrl.ToString());
+            if (queryString.ContainsKey("authentication_error"))
+            {
+                throw new LoginFailedException("Wrong Username/Password");
+            }
             if (!queryString.ContainsKey("targetUrl")) return null;
             queryString = UriExtensions.ParseQueryString(WebUtility.UrlDecode(queryString["targetUrl"]));
             if (!queryString.ContainsKey("code")) return null;
@@ -167,11 +175,6 @@ namespace PsnLib.Managers
 
         public async Task<UserAccountEntity> LoginTest(UserAccountEntity userAccountEntity)
         {
-            if (userAccountEntity.HasAccessToken())
-            {
-                return null;
-            }
-
             var authManager = new AuthenticationManager();
             UserAccountEntity.User user = await authManager.GetUserEntity(userAccountEntity);
             if (user == null) return null;
