@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Psnlib : A C# .Net PlayStation Network Library">
+    <meta name="description" content="Psnlib : A PlayStation Network API Wrapper in .NET">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -19,7 +19,7 @@
           <a id="forkme_banner" href="https://github.com/drasticactions/PsnLib">View on GitHub</a>
 
           <h1 id="project_title">Psnlib</h1>
-          <h2 id="project_tagline">A C# .Net PlayStation Network Library</h2>
+          <h2 id="project_tagline">A PlayStation Network API Wrapper in .NET</h2>
 
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/drasticactions/PsnLib/zipball/master">Download this project as a .zip file</a>
@@ -32,13 +32,30 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h3>
-<a id="psnlib-a-playstation-network-net-library" class="anchor" href="#psnlib-a-playstation-network-net-library" aria-hidden="true"><span class="octicon octicon-link"></span></a>PsnLib: A Playstation Network .NET Library</h3>
+<a id="psnlib-a-playstation-network-api-wrapper-in-net" class="anchor" href="#psnlib-a-playstation-network-api-wrapper-in-net" aria-hidden="true"><span class="octicon octicon-link"></span></a>PsnLib: A PlayStation Network API Wrapper in .NET</h3>
 
 <p>PsnLib is a library for accessing the PlayStation Network in .NET. Currently, it is being used as the foundation for a new Windows Store/Windows Phone application, PSN Messenger.</p>
 
 <p><img src="http://i.imgur.com/jfsCUGh.png" alt="PSN Messenger App 1"></p>
 
 <p>But it should be flexible enough so you can use it with any .NET application. </p>
+
+<p>Currently it can do nearly everything the straight PSN API, including:</p>
+
+<ul>
+<li>Retrieving friends lists.</li>
+<li>Accepting, creating, and removing friend requests.</li>
+<li>Messaging users.</li>
+<li>Creating friend request SNS links.</li>
+<li>Getting users recent activity feeds.</li>
+<li>Getting Live from PlayStation feeds from UStream, Twitch, and NicoNico.</li>
+<li>Comparing trophies with other users.</li>
+<li>Searching for users.</li>
+<li>Getting and setting current user notifications.</li>
+<li>Getting and responding to game session invites.</li>
+</ul>
+
+<p>The biggest missing feature is sending audio messages, but this is mostly due to the PSN having odd audio codecs that are hard to match and send without it failing on their end.</p>
 
 <h3>
 <a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h3>
