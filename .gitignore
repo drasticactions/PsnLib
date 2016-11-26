@@ -41,6 +41,10 @@ local.properties
 *.user
 *.sln.docstates
 
+# ASP.NET 5
+project.lock.json
+artifacts/
+
 # Build results
 
 [Dd]ebug/
